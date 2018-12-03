@@ -29,11 +29,11 @@ class VisPopup extends LitElement {
       font-size:28px;
     }
     .popup {
-      position: absolute;
+      /*position: absolute;
       z-index: 99;
       top: 10%;
       left: 1vw;
-      width: 99vw;
+      width: 99vw;*/
       background-color: #f9f9f9;
       border-style:solid;
       border-width:3px;

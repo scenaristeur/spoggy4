@@ -47,6 +47,7 @@
     "reselect": "^3.0.1",
     "solid-auth-client": "^2.2.13",
     "solid-file-client": "github:jeff-zucker/solid-file-client",
+    "spoggy-graph": "github:scenaristeur/spoggy-graph",
     "vis": "^4.21.0",
     "web-animations-js": "^2.3.1"
   },
