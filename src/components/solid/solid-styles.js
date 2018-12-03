@@ -220,5 +220,12 @@ export const SolidStyles = html`
     #currentFolder {
       font-weight:bold;
     }
+
+    .red {
+      color: red;
+    }
+    .green {
+      color: green;
+    }
 </style>
 `;

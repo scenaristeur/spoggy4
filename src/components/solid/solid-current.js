@@ -104,6 +104,7 @@ console.log(this.agentCurrent);
     console.log("RESULT : ",this.current)
     //this.dispatchEvent(new CustomEvent('current-changed', this.current));
     this.agentCurrent.send('agentFoldermenu', {type: 'currentChanged', current: this.current });
+    this.agentCurrent.send('agentFileeditor', {type: 'currentChanged', current: this.current });
   }
 
 

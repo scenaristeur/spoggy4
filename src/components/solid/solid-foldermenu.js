@@ -27,19 +27,7 @@ class SolidFoldermenu extends LitElement {
     return html`
     ${SharedStyles}
     ${SolidStyles}
-    <style>
-    p {
-      font-family: Roboto;
-    /*  font-size: 24px;
-      font-weight: 500;*/
-    }
-    .red {
-      color: red;
-    }
-    .green {
-      color: green;
-    }
-    </style>
+
     <h1>Foldermenu</h1>
 
 
@@ -93,7 +81,7 @@ class SolidFoldermenu extends LitElement {
       constructor(){
         super();
         this.myBool = true;
-        this.log = "vide"
+        this.log = ""
       }
 
       connectedCallback(){
@@ -109,7 +97,18 @@ class SolidFoldermenu extends LitElement {
         this.folder.folders = []
         this.folder.files = []
         //  this.log = "";
+
+        solid.auth.trackSession(session => {
+          if (!session){
+            console.log('The user is not logged in')
+            //app.context = null;
+          }
+          else{
+            console.log(`The user is ${session.webId}`)
+          }
+        })
       }
+
       currentChanged(current){
         console.log(current)
         this.current= current;
@@ -133,7 +132,7 @@ class SolidFoldermenu extends LitElement {
           console.log("traitement d'un fichier")
           this.current = res;
         }
-
+        this.agentFoldermenu.send('agentFileeditor', {type: 'currentChanged', current: res });
       }
 
       createFile(){
