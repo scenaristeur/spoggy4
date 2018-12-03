@@ -113,4 +113,25 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <!-- Built with love using PWA Starter Kit -->
     <script type="module" src="src/components/my-app.js" crossorigin></script>
   </body>
+
+  <!-- IMPORT WEB ANIMATION Pour PaperDropdown https://stackoverflow.com/questions/52193786/polymer-3-0-uncaught-reference-error-on-paper-drop-down-click -->
+<script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+<script src="../node_modules/web-animations-js/web-animations-next.min.js"></script>
+<script src="../node_modules/solid-file-client/solid-file-client.js"></script>
+<script src="../node_modules/vis/dist/vis.js"></script>
+  <!--<script>
+    solid.auth.trackSession(session => {
+      if (!session)
+      console.log('The user is not logged in')
+      else
+      console.log(`The user is ${session.webId}`)
+    })
+  </script>
+  <script>
+  console.log("RDFLIB : ",$rdf);
+  console.log("SOLID-AUTH : ",solid);
+
+  const fileClient = new SolidFileClient()
+  console.log(fileClient)
+</script>-->
 </html>
