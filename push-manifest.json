@@ -22,6 +22,18 @@
     "type": "script",
     "weight": 1
   },
+  "src/components/solid/solid-current.js": {
+    "type": "script",
+    "weight": 1
+  },
+  "src/components/solid/solid-ide.js": {
+    "type": "script",
+    "weight": 1
+  },
+  "src/components/solid/solid-login.js": {
+    "type": "script",
+    "weight": 1
+  },
   "node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js": {
     "type": "script",
     "weight": 1

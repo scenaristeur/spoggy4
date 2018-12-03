@@ -15,17 +15,17 @@ class SolidView extends PageViewElement {
     <section>
     <p> status : ${this.status}</p>
     </section>
-parcourir un pod public sans être connecté
+    parcourir un pod public sans être connecté
     <section>
-    <solid-login></solid-login>
+    <solid-login> Solid Login</solid-login>
     </section>
-<!--
+    <!--
     <section>
     <solid-profile></solid-profile>
     </section>-->
 
     <section>
-    <solid-ide></solid-ide>
+    <solid-ide>Solid Ide</solid-ide>
     </section>
     `
   }

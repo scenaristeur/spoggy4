@@ -17,19 +17,74 @@ import { SharedStyles } from './shared-styles.js';
 class MyView1 extends PageViewElement {
   render() {
     return html`
-      ${SharedStyles}
-      <section>
-        <h2>Static page</h2>
-        <p>This is a text-only page.</p>
-        <p>It doesn't do anything other than display some static text.</p>
-      </section>
-      <section>
-        <h2>Welcome</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ac nisi orci. Maecenas sollicitudin diam in diam efficitur cursus. Morbi sollicitudin in justo tincidunt placerat. Integer tincidunt elementum nisi, eu ornare dolor lacinia eget. Fusce pulvinar massa eget odio placerat, commodo molestie ipsum tempus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Suspendisse porttitor id purus eu cursus. Suspendisse arcu nulla, mattis vel hendrerit et, malesuada a elit. Nam at diam ornare, aliquet est sed, malesuada metus. Cras nec enim vel nibh tincidunt euismod ut et enim. Etiam pharetra eros in sodales iaculis. Duis sagittis urna et cursus mollis. Cras tempor rutrum est. Praesent sollicitudin ligula at laoreet placerat. Praesent tortor dui, semper in sapien non, pharetra luctus turpis.</p>
-      </section>
-      <section>
-        <p>Vestibulum at est ex. Aenean id ligula id nibh dictum laoreet. Etiam non semper erat. Pellentesque eu justo rhoncus diam vulputate facilisis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam feugiat metus ex, vel fringilla massa tincidunt sit amet. Nunc facilisis bibendum tristique. Mauris commodo, dolor vitae dapibus fermentum, odio nibh viverra lorem, eu cursus diam turpis et sapien. Nunc suscipit tortor a ligula tincidunt, id hendrerit tellus sollicitudin.</p>
-      </section>
+    ${SharedStyles}
+    <section>
+    <h2>Spoggy.</h2>
+    <h3>Un petit pas pour l'homme, un grand pas pour l'immortalité.</h3>
+
+    </section>
+    <section>
+    <h2>Imaginez</h2>
+    <p>Imaginez une application mobile dans laquelle vous pouvez directement
+    stocker des informations concernant vos idées, vos rêves, vos problèmes,
+    vos expériences et tout ce qui vous passe par la tête.
+    </p>
+    </section>
+
+    <section>
+    <h2>Partagez</h2>
+    <p>
+    Que vous puissiez à tout moment et très facilement revenir dessus, les modifier,
+    les effacer, les relier, les partager,
+    en transmettre une partie à un membre de votre famille, un collègue ou un ami...
+    </p>
+    </section>
+
+    <section>
+    <h2>Augmentez-vous</h2>
+    <p>
+    Ne seriez-vous pas un homme ou une femme augmenté(e), avec votre deuxième cerveau, un cerveau numérique cette fois?
+    </p>
+    </section>
+
+    <section>
+    <p>
+    Imaginez que vous puissiez connecter ce cerveau numérique à d'autres cerveaux similaires...
+
+    </p>
+    </section>
+
+    <section>
+    <p>
+    A celui de vos voisins pour vous accorder sur un point précis où à celui de vos collègues pour prendre en compte leur expertise après qu'ils vous aient partagé l'accès.
+    </p>
+    </section>
+
+    <section>
+    <p>
+    Exposez à votre famille ou à quiconque voudra bien vous aider pour faire avancer vos projets, votre vision du monde, à vos enfants vos valeurs et votre expérience...
+    </p>
+    </section>
+
+    <section>
+    <p>
+    <ul>
+    <li>Transmission du savoir lors d'un départ à la retraite,</li>
+    <li>Collaboration en temps réel,</li>
+    <li>Connexion à Wikipédia et à un nombre croissant de bases de connaissances scientifiques et autres domaines (alimentation, botanique...),</li>
+    <li>Échanges bi-directionnels avec les objets connectés et les robots (informations directement compréhensibles et inférables par les machines).</li>
+    </ul>
+    </p>
+    </section>
+
+
+
+
+    </br>
+
+    </p>
+
+
     `;
   }
 }
