@@ -11,6 +11,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 import { LitElement, html } from '@polymer/lit-element';
 import '@polymer/paper-button/paper-button.js';
 import '@polymer/paper-input/paper-input.js';
+import  '/node_modules/evejs/dist/eve.custom.js';
+import { CurrentAgent } from './agents/CurrentAgent.js'
 //import  '/node_modules/solid-file-client/solid-file-client.js';
 import { SolidTools } from "./solid-tools.js"
 
@@ -40,9 +42,14 @@ class SolidCurrent extends LitElement {
   connectedCallback(){
     super.connectedCallback();
     var app = this;
+    //console.log( 'id : ', this.id);
+this.agentCurrent = new CurrentAgent("agentCurrent", this);
+console.log(this.agentCurrent);
+//this.agentVis.send('agentApp', {type: 'dispo', name: this.id });
 
     console.log(solid)
     console.log($rdf)
+    app.thing={}
     //  this.fileclient = new SolidFileClient();
     this.st = new SolidTools();
     this.st.fileclient = new SolidFileClient();
@@ -61,6 +68,7 @@ class SolidCurrent extends LitElement {
         app.context = null;
         //app.$.podInput.value = ""
         app.current = {}
+        app.public = "https://smag0.solid.community/public/"
         app.thing = {}
       }
       else{
@@ -89,11 +97,13 @@ class SolidCurrent extends LitElement {
   }
 
   async go(){
-    console.log(this.public)
-    this.thing.url = this.public;
+    console.log(this.shadowRoot.getElementById("currentInput").value)
+    this.thing.url = this.shadowRoot.getElementById("currentInput").value;
     var thing = this.thing;
     this.current = await this.st.get(thing);
     console.log("RESULT : ",this.current)
+    //this.dispatchEvent(new CustomEvent('current-changed', this.current));
+    this.agentCurrent.send('agentFoldermenu', {type: 'currentChanged', current: this.current });
   }
 
 

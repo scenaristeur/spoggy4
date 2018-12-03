@@ -39,6 +39,12 @@ npm install
 polymer serve
 
 ```
+-  builder evejs si ce n'est déjà fait
+```
+cd node_modules/evejs
+browserify custom.js -o dist/eve.custom.js -s eve
+```
+
 Spoggy4 est alors accessible à l'adresse [http://127.0.0.1:8081](http://127.0.0.1:8081)
 
 

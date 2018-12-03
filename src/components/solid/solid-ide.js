@@ -2,6 +2,9 @@ import { LitElement, html } from '@polymer/lit-element';
 
 import "./solid-current.js";
 import "./solid-foldermenu.js";
+import "./solid-filemanager.js";
+import "./solid-foldermanager.js";
+import "./solid-fileeditor.js";
 
 
 //import "./ide-current.js";
@@ -18,13 +21,19 @@ import "spoggy-graph/spoggy-graph.js";*/
 class SolidIde extends LitElement {
   render() {
     return html`
-    POD: ${this.session.webId} <!-- à changer en input modifiable pour parcourir d'autres PODS? -->
+
     <section>
-    <solid-current current={{current}}></solid-current>
+    IDE CURRENT : ${this.current}<br>
+    IDE NEW CURRENT : ${this.newCurrentcurrent}
+    <solid-current current=${this.current}></solid-current>
     </section>
 
     <section>
-    <solid-foldermenu current={{current}}></solid-foldermenu>
+    <solid-foldermenu current=${this.current}></solid-foldermenu>
+
+    <solid-filemanager current={{current}}></solid-filemanager>
+    <solid-foldermanager current={{current}}></solid-foldermanager>
+    <solid-fileeditor current=${this.current}></solid-fileeditor>
     </section>
     `;
   }
@@ -59,6 +68,8 @@ class SolidIde extends LitElement {
       }
     })
   }
+
+
 
 }
 
