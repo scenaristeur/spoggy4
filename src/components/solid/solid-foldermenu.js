@@ -27,18 +27,24 @@ class SolidFoldermenu extends LitElement {
     return html`
     ${SharedStyles}
     ${SolidStyles}
+    <style>
+    p {
+      font-family: Roboto;
+    /*  font-size: 24px;
+      font-weight: 500;*/
+    }
+    .red {
+      color: red;
+    }
+    .green {
+      color: green;
+    }
+    </style>
     <h1>Foldermenu</h1>
 
 
     <div class="card">
     <!--  <div class="circle">IdeFoldermenu</div>-->
-    <div>  Folder.name : ${this.folder.name}</br>
-    Current: ${this.current}
-
-    <paper-input id="nameInput" label="name of folder or file / nom du dossier ou du fichier" value=${this.folder.name}></paper-input>
-    <paper-button raised on-tap="createFolder">Create Folder / creer un dossier</paper-button>
-    <paper-button raised on-tap="createFile">Create File / creer un fichier</paper-button>
-    </div>
 
     <button on-tap="manageResource(${this.folder})" class="docIcon" v-bind:class="canControl()">
     <img src="./assets/folder.png">
@@ -48,55 +54,28 @@ class SolidFoldermenu extends LitElement {
     </button>
     <hr>
 
-
+    <table border="1">
+    <tr>
+    <td>
     ${this.folder.folders.map(i => html`
       <paper-item raised @click="${(e) =>  this.get(i)}"> <img src="./assets/folder.png" />${i.name}</paper-item>
       `)}
+      </td>
 
-      <!--<template is="dom-repeat" items="[[this.folder.folders]]">
-      <paper-item raised on-tap="get"> <img src="./assets/folder.png" />[[item.name]]</paper-item>
-      </template>-->
-
-      <!--<ul>
-      <li v-for="subFolder in folder.folders">
-      <button class="docIcon">
-      <img src="./assets/folder.png" />
-      </button>
-      <button class="fileName" v-on:click="get(subFolder)">
-      <img src="./assets/folder.png" />
-      {{subFolder.name}}
-      </button>
-      </li>
-      </ul>-->
-      <hr>
-
-      <!--<template is="dom-repeat" items="[[this.folder.files]]">
-      <paper-item raised on-tap="get" title="[[item.type]]"><img src="./assets/document.png"> [[item.label]] </paper-item>
-      </template>-->
-
+      <td>
       ${this.folder.files.map(i => html`
         <paper-item raised @click="${(e) =>  this.get(i)}" title="${i.type}"> <img src="./assets/document.png" />${i.label}</paper-item>
         `)}
-        <!--[download]-->
-        <!--<ul>
-        <li v-for="f in folder.files">
-        <button v-on:click="rm(f)" class="docIcon" v-bind:class="canControl()">
-        <img src="./assets/document.png">
-        </button>
-        <button class="fileName" v-on:click.right="download(f)" v-on:click="get([[f]])" v-bind:title="f.label+' '+f.type">
-        {{f.label}}
-        </button>
-        </li>
-        </ul>-->
-        <!--  <h1>Tutoriel</h1>
-        <p>Modus commodo minimum eum te, vero utinam assueverit per eu.</p>
-        <p>Ea duis bonorum nec, falli paulo aliquid ei eum.Has at minim mucius aliquam, est id tempor laoreet.Pro saepe pertinax ei, ad pri animal labores suscipiantur.</p>
-        -6>    </div>
+        </td>
 
-        <div class="card">
-        <spoggy-input></spoggy-input><!--import "../spoggy/spoggy-input.js";-->
-        <!--<solid-login id="solid-login"></solid-login>-->
-
+        <td>
+        <paper-input id="nameInput" label="name of folder or file to create / nom du dossier ou du fichier a créer" ></paper-input>
+        <paper-button raised  @click="${(e) =>  this.createFolder()}">Create Folder / creer un dossier</paper-button><br>
+        <paper-button raised  @click="${(e) =>  this.createFile()}">Create File / creer un fichier</paper-button><br>
+        <p class="${this.myBool?'red':'green'}">${this.log}</p>
+        </td>
+        </tr>
+        </table>
         </div>
 
         `;
@@ -106,7 +85,15 @@ class SolidFoldermenu extends LitElement {
         return {
           current: {type: Object, notify: true},
           folder: {type: Object, notify: true},
+          myBool: { type: Boolean },
+          log: {type: String}
         }
+      }
+
+      constructor(){
+        super();
+        this.myBool = true;
+        this.log = "vide"
       }
 
       connectedCallback(){
@@ -118,9 +105,10 @@ class SolidFoldermenu extends LitElement {
         console.log("FILE CLIENT ", this.fileclient )
         console.log("CURRENT FOLDERMENU :",this.current);
         this.folder = {}
-        this.folder.name = "inconnu"
+        this.folder.name = null
         this.folder.folders = []
         this.folder.files = []
+        //  this.log = "";
       }
       currentChanged(current){
         console.log(current)
@@ -149,22 +137,39 @@ class SolidFoldermenu extends LitElement {
       }
 
       createFile(){
-        var newFile = this.folder.url+this.$.nameInput.value;
+        var newFile = this.folder.url+this.shadowRoot.getElementById('nameInput').value;
         console.log(newFile)
         this.st.fileclient.createFile( newFile ).then( success => {
-          if(!success) console.log(this.st.fileclient.err)
-          else console.log( `Created file ${newFile}.`)
+          if(!success){
+            console.log(this.st.fileclient.err)
+            this.log = this.st.fileclient.err
+            this.myBool = true
+          }
+          else {
+            this.log = "Created file "+newFile;
+            console.log( `Created file ${newFile}.`)
+            this.myBool = false
+          }
         })
       }
 
       createFolder(){
-        var url = this.folder.url+this.$.nameInput.value;
+        var url = this.folder.url+this.shadowRoot.getElementById('nameInput').value;
         console.log(url)
         this.st.fileclient.createFolder( url ).then( success => {
-          if(!success) console.log(this.st.fileclient.err)
-          else console.log( `Created folder ${url}.`)
+          if(!success) {
+            console.log(this.st.fileclient.err)
+            this.log = this.st.fileclient.err
+            this.myBool = true
+          }
+          else {
+            this.log = "Created Folder "+url;
+            console.log( `Created folder ${url}.`)
+            this.myBool = false
+          }
         })
       }
+
 
     }
 

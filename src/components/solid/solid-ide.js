@@ -30,10 +30,9 @@ class SolidIde extends LitElement {
 
     <section>
     <solid-foldermenu current=${this.current}></solid-foldermenu>
-
+    <solid-fileeditor current=${this.current}></solid-fileeditor>
     <solid-filemanager current={{current}}></solid-filemanager>
     <solid-foldermanager current={{current}}></solid-foldermanager>
-    <solid-fileeditor current=${this.current}></solid-fileeditor>
     </section>
     `;
   }
