@@ -5,6 +5,7 @@ import "./solid-foldermenu.js";
 import "./solid-filemanager.js";
 import "./solid-foldermanager.js";
 import "./solid-fileeditor.js";
+import "./spoggy-vis.js";
 
 
 //import "./ide-current.js";
@@ -23,14 +24,13 @@ class SolidIde extends LitElement {
     return html`
 
     <section>
-    IDE CURRENT : ${this.current}<br>
-    IDE NEW CURRENT : ${this.newCurrentcurrent}
     <solid-current current=${this.current}></solid-current>
     </section>
 
     <section>
     <solid-foldermenu current=${this.current}></solid-foldermenu>
     <solid-fileeditor current=${this.current}></solid-fileeditor>
+    <spoggy-vis current=${this.current}></spoggy-vis>
     <solid-filemanager current={{current}}></solid-filemanager>
     <solid-foldermanager current={{current}}></solid-foldermanager>
     </section>
