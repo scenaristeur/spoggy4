@@ -133,6 +133,7 @@ class SolidFoldermenu extends LitElement {
           this.current = res;
         }
         this.agentFoldermenu.send('agentFileeditor', {type: 'currentChanged', current: res });
+        this.agentFoldermenu.send('agentGraph', {type: 'currentChanged', current: res });
       }
 
       createFile(){

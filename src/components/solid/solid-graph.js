@@ -12,18 +12,21 @@ import { LitElement, html } from '@polymer/lit-element';
 import '@polymer/paper-button/paper-button.js';
 import '@polymer/paper-input/paper-input.js';
 import  '/node_modules/evejs/dist/eve.custom.js';
-import { CurrentAgent } from './agents/CurrentAgent.js'
+import { GraphAgent } from './agents/GraphAgent.js'
 //import  '/node_modules/solid-file-client/solid-file-client.js';
 import { SolidTools } from "./solid-tools.js"
+import './spoggy-vis.js'
 
 // This is a reusable element. It is not connected to the store. You can
 // imagine that it could just as well be a third-party element that you
 // got from someone else.
-class SolidCurrent extends LitElement {
+class SolidGraph extends LitElement {
   render() {
     return html`
-    <paper-input id="currentInput" label="Current Folder / Dossier Courant" value="${this.public}"></paper-input>
+    SOLID GRAPH
+    <paper-input id="currentInput" label="Current Folder / Dossier Courant" value="${this.current.value.url}"></paper-input>
     <paper-button id="goBtn" raised   @click="${this.go}">Go</paper-button>
+    <spoggy-vis current=${this.current}></spoggy-vis>
     `;
   }
 
@@ -34,7 +37,7 @@ class SolidCurrent extends LitElement {
       context: {type: Object, value: {}},
       webId: Object,
       public: {type: String, notify: true},
-      current: {type: Object, notify: true},
+      current: {type: Object},
       thing: {type: Object, value: {}}
     }
   }
@@ -42,10 +45,11 @@ class SolidCurrent extends LitElement {
   connectedCallback(){
     super.connectedCallback();
     var app = this;
+    this.current = {value:{url:"",content:""}}
     //console.log( 'id : ', this.id);
-this.agentCurrent = new CurrentAgent("agentCurrent", this);
-console.log(this.agentCurrent);
-//this.agentVis.send('agentApp', {type: 'dispo', name: this.id });
+    this.agentGraph = new GraphAgent("agentGraph", this);
+    console.log(this.agentGraph);
+    //this.agentVis.send('agentApp', {type: 'dispo', name: this.id });
 
     console.log(solid)
     console.log($rdf)
@@ -65,15 +69,15 @@ console.log(this.agentCurrent);
     solid.auth.trackSession(session => {
       if (!session){
         console.log('The user is not logged in')
-        app.context = null;
+      /*  app.context = null;
         //app.$.podInput.value = ""
         app.current = {}
         app.public = "https://smag0.solid.community/public/"
-        app.thing = {}
+        app.thing = {}*/
       }
       else{
         console.log(`The user is ${session.webId}`)
-        app.context = {}
+      /*  app.context = {}
         app.context.wedId = session.webId;
 
         app.context.me = $rdf.sym(session.webId)
@@ -88,7 +92,7 @@ console.log(this.agentCurrent);
         var wedIdSpilt = session.webId.split("/");
         this._webIdRoot = wedIdSpilt[0]+"//"+wedIdSpilt[2]+"/";
         console.log(this._webIdRoot);
-        app.public = this._webIdRoot+"public/";
+        app.public = this._webIdRoot+"public/";*/
 
         //  this.loadProfileDocument();
       }
@@ -96,19 +100,13 @@ console.log(this.agentCurrent);
     })
   }
 
-  async go(){
-    console.log(this.shadowRoot.getElementById("currentInput").value)
-    this.thing.url = this.shadowRoot.getElementById("currentInput").value;
-    var thing = this.thing;
-    this.current = await this.st.get(thing);
-    console.log("RESULT : ",this.current)
-    //this.dispatchEvent(new CustomEvent('current-changed', this.current));
-    this.agentCurrent.send('agentFoldermenu', {type: 'currentChanged', current: this.current });
-    this.agentCurrent.send('agentFileeditor', {type: 'currentChanged', current: this.current });
-    this.agentCurrent.send('agentGraph', {type: 'currentChanged', current: this.current });
-  }
+currentChanged(current){
+  console.log(current)
+  this.current = current;
+}
+
 
 
 }
 
-window.customElements.define('solid-current', SolidCurrent);
+window.customElements.define('solid-graph', SolidGraph);

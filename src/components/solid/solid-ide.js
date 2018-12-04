@@ -3,9 +3,9 @@ import { LitElement, html } from '@polymer/lit-element';
 import "./solid-current.js";
 import "./solid-foldermenu.js";
 import "./solid-filemanager.js";
-import "./solid-foldermanager.js";
-import "./solid-fileeditor.js";
-import "spoggy-graph/spoggy-graph.js";
+//import "./solid-foldermanager.js";
+//import "./solid-fileeditor.js";
+import "./solid-graph.js";
 
 
 //import "./ide-current.js";
@@ -30,9 +30,9 @@ class SolidIde extends LitElement {
     <section>
     <solid-foldermenu current=${this.current}></solid-foldermenu>
     <solid-fileeditor current=${this.current}></solid-fileeditor>
-    <spoggy-graph current=${this.current}></spoggy-graph>
-    <solid-filemanager current={{current}}></solid-filemanager>
-    <solid-foldermanager current={{current}}></solid-foldermanager>
+    <solid-graph id="spoggy-graph" current=${this.current}></solid-graph>
+  <!--  <solid-filemanager current={{current}}></solid-filemanager>
+    <solid-foldermanager current={{current}}></solid-foldermanager>-->
     </section>
     `;
   }
