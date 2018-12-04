@@ -26,7 +26,7 @@ class SolidGraph extends LitElement {
     SOLID GRAPH
     <paper-input id="currentInput" label="Current Folder / Dossier Courant" value="${this.current.value.url}"></paper-input>
     <paper-button id="goBtn" raised   @click="${this.go}">Go</paper-button>
-    <spoggy-vis current=${this.current}></spoggy-vis>
+    <spoggy-vis id="spoggy-vis" current=${this.current}></spoggy-vis>
     `;
   }
 

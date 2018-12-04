@@ -40,9 +40,81 @@ VisAgent.prototype.receive = function(from, message) {
 
 
   switch(message.type){
-    case 'visresults':
-    console.log("visresults", message.visresults);
-    this.app.updateNetwork(message.visresults);
+    case 'catchTriplet':
+    let triplet = message.triplet;
+    console.log(triplet)
+    this.app.tripletToNetwork(triplet);
+    break;
+    case 'clear':
+    this.app.clear();
+    break;
+    case 'exportJson':
+    this.app.exportJson();
+    break;
+    case 'exportTtl':
+    this.app.exportTtl();
+    break;
+    case 'decortiqueFile':
+    this.app.decortiqueFile(message.fichier, message.remplaceNetwork);
+    break;
+    case 'newGraph':
+    this.app.newGraph();
+    break;
+    case 'addToGraph':
+    console.log(message.data)
+    this.app.addToGraph(message.data);
+    break;
+    case 'populateVis':
+    console.log(message.data)
+    this.app.populateVis(message.data);
+    break;
+    case 'importJson':
+    this.app.importJson();
+    break;
+    case 'importFromParam':
+    console.log(message.params)
+    this.app.importFromParam(message.params);
+    break;
+    case 'resultsFromExplore':
+    //  console.log(message.results)
+    this.app.resultsFromExplore(message.results);
+    break;
+    case 'resultsFromSparql':
+    //  console.log(message.results)
+    this.app.resultsFromSparql(message.results);
+    break;
+    case 'resultsFromPersee':
+    //  console.log(message.results)
+    this.app.resultsFromPersee(message);
+    break;
+    case 'describeFromDBpedia':
+    console.log(message.results)
+    this.app.describeFromDBpedia(message.results, message.resource);
+    break;
+    case 'updateNetworkOptions':
+    console.log(message.repulsion)
+    this.app.updateNetworkOptions(message.repulsion);
+    break;
+    case 'exportJson':
+    console.log(message.type)
+    this.app.exportJson();
+    break;
+    case 'askNetworkOptions':
+    console.log(this.app.network.physics.options.repulsion)
+    this.app.agentGraph.send('agentReglagesGraph', {type:'initOptions', repulsion : this.app.network.physics.options.repulsion});
+    break;
+    case 'resetNetworkOptions':
+    this.app.resetNetworkOptions();
+    console.log(this.app.network.physics.options.repulsion)
+    this.app.agentGraph.send('agentReglagesGraph', {type:'initOptions', repulsion : this.app.network.physics.options.repulsion});
+    break;
+    case 'exportTtl':
+    console.log('exportTtl')
+    this.exportTtl();
+    case 'currentChanged':
+    console.log('currentChanged', message)
+    this.app.currentChanged(message.current)
+
     break;
     case 'savenode':
     console.log("savenode", message.data);
