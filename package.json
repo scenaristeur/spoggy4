@@ -23,6 +23,7 @@
     "@fooloomanzoo/color-picker": "^3.0.2",
     "@granite-elements/ace-widget": "^2.2.7-b1",
     "@polymer/app-layout": "^3.0.2",
+    "@polymer/iron-flex-layout": "^3.0.1",
     "@polymer/iron-selector": "^3.0.1",
     "@polymer/lit-element": "^0.6.4",
     "@polymer/neon-animation": "^3.0.1",

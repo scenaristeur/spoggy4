@@ -14,23 +14,20 @@ class SpoggyVis extends LitElement {
   render() {
     return html`
     ${GraphStyles}
-    Spoggy Vis Web Components are <span class="mood">${this.mood}</span>!<br>
-    <vis-input id="visInput" destinataire="${this.id}"></vis-input>
+    <vis-input id="visInput" destinataire="agentVis"></vis-input>
     <div id="mynetwork"></div>
-    <vis-popup id="visPopup" parent="${this.id}"></vis-popup>
+    <vis-popup id="visPopup" parent="agentVis"></vis-popup>
     `;
   }
 
   static get properties() {
     return {
       id: {type: String, value:""},
-      mood: {type: String}
     };
   }
 
   constructor() {
     super();
-    this.mood = 'Spoggy Vis';
   }
 
   firstUpdated(){
@@ -129,7 +126,20 @@ class SpoggyVis extends LitElement {
       };
 
       app.network = new vis.Network(container, data, options);
+
       app.network.on("selectNode", async function (params) {
+        console.log('selectNode Event: ', params);
+        var existNode = app.network.body.data.nodes.get({
+          filter: function(node){
+            return (node.id == params.nodes[0] );
+          }
+        });
+        console.log(existNode);
+      })
+
+
+
+      app.network.on("doubleClick", async function (params) {
         console.log('selectNode Event: ', params);
         var id = params.nodes[0];
         var existNode;
@@ -183,19 +193,62 @@ class SpoggyVis extends LitElement {
     }
 
     fileChanged(file){
+      var app = this;
       console.log(file);
-      this.ttl2Xml(file.value.content, this.network)
+      //  console.log(file.value.content)
+      //  ttl2Xml(file.value.content, this.network)
+      /* TEST AVEC STORE+SPARQL, mais on a dejà les infos dans file.value.content */
+      const store = $rdf.graph();
+      console.log(store)
+      const fetcher = new $rdf.Fetcher(store);
+      console.log(fetcher)
+      fetcher.load(file.value.url).then( response => {
+        console.log(response)
+        console.log(store)
+        console.log(store.statements)
+        var edges=[];
+        store.statements.forEach(function (s){
 
-    }
+          var nodeSujetTemp = {
+            id: s.subject.value,
+            label: s.subject.value,
+            type: "node"
+          };
+          var nodeObjetTemp = {
+            id:  s.object.value,
+            label: s.object.value,
+            type: "node"
+          };
+
+
+          addNodeIfNotExist(app.network, nodeSujetTemp)
+          addNodeIfNotExist(app.network, nodeObjetTemp)
+          edges.push({from:s.subject.value, to: s.object.value, arrows: 'to', label:s.predicate.value});
+          console.log(edges)
+          app.network.body.data.edges.update(edges)
+        })
 
 
 
-    /*  updated(changedProperties){
-    super.updated(changedProperties)
-    changedProperties.forEach((oldValue, propName) => {
-    console.log(`${propName} changed. oldValue: ${oldValue}`);
-    console.log("responseData UPDATED: ",this.responseData)
-  });
+      })
+
+
+      /*let name = store.any(person, VCARD(‘fn’));
+      if (name) {
+      label.textContent =  name.value; // name is a Literal object
+    }*/
+
+
+  }
+
+
+
+  /*  updated(changedProperties){
+  super.updated(changedProperties)
+  changedProperties.forEach((oldValue, propName) => {
+  console.log(`${propName} changed. oldValue: ${oldValue}`);
+  console.log("responseData UPDATED: ",this.responseData)
+});
 }
 
 attributeChangedCallback(name, oldval, newval) {

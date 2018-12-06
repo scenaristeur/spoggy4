@@ -71,6 +71,8 @@ class SolidCurrent extends LitElement {
         app.public = "https://smag0.solid.community/public/"
         app.thing = {}
         //  app.urlChanged(app.public)
+        app.go()
+        app.shadowRoot.getElementById("currentInput").label = "Parcourir un pod public sans être connecté"
       }
       else{
         console.log(`The user is ${session.webId}`)
@@ -90,7 +92,6 @@ class SolidCurrent extends LitElement {
         this._webIdRoot = wedIdSpilt[0]+"//"+wedIdSpilt[2]+"/";
         console.log(this._webIdRoot);
         app.public = this._webIdRoot+"public/";
-
         //  this.loadProfileDocument();
       }
 

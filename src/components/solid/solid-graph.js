@@ -198,7 +198,7 @@ class SolidGraph extends LitElement {
 
   file2vis(sfile){
     console.log('sfile',sfile)
-    //this.agentGraph.send('agentVis', {type: 'fileChanged', file: sfile });
+    this.agentGraph.send('agentVis', {type: 'fileChanged', file: sfile });
   }
 
 }
