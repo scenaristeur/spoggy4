@@ -23,7 +23,6 @@ import './spoggy-vis.js'
 class SolidGraph extends LitElement {
   render() {
     return html`
-    SOLID GRAPH
     <paper-input id="currentInput" label="Current Folder / Dossier Courant" value="${this.current.value.url}"></paper-input>
     <spoggy-vis id="spoggy-vis" current=${this.current} data=${this.data}></spoggy-vis>
     `;
@@ -37,7 +36,8 @@ class SolidGraph extends LitElement {
       webId: Object,
       public: {type: String, notify: true},
       current: {type: Object},
-      thing: {type: Object, value: {}}
+      thing: {type: Object, value: {}},
+      data: {type: Object, value: {}}
     }
   }
 
@@ -138,23 +138,27 @@ class SolidGraph extends LitElement {
       {from: url, to: "fileCluster", arrows:'to', label: "files"},*/
     ];
 
-    if (sfolder.folders){
+    if (sfolder.folders && sfolder.folders.length >0){
       nodes.push({id:'folders', label:"Folder"});
       sfolder.folders.forEach(function(fo){
         if(fo.name != ".."){
           app.folder2vis(fo)
-          nodes.push([{id:fo.url, label:fo.name, type: 'folder'}]);
+          var node = {id:fo.url, label:fo.name, type: 'folder'}
+          console.log(node)
+          nodes.push(node);
           edges.push({from:url, to: fo.url, arrows: 'to', label:"folder"});
           edges.push({from:fo.url, to: 'folders', arrows: 'to', label:"type"});
         }
       })
     }
-    if (sfolder.files){
+    if (sfolder.files && sfolder.files.length > 0){
       nodes.push({id:'files', label:"File"});
       sfolder.files.forEach(function(fi){
         console.log(fi)
         app.file2vis(fi)
-        nodes.push({id:fi.url, label:fi.label, type: 'file'});
+        var node = {id:fi.url, label:fi.label, type: 'file'};
+        console.log(node)
+        nodes.push(node);
         edges.push({from:url, to: fi.url, arrows: 'to', label:"file"});
         edges.push({from:fi.url, to: 'files', arrows: 'to', label:"type"});
       })

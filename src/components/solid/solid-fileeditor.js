@@ -35,20 +35,9 @@ class SolidFileditor extends LitElement {
     </style>
 
     <div class="card">
-    <h1>IdeFileeditor</h1>
     <div>
-    Current : ${this.file.url}   <a href="${this.file.url}" target="_blank"><img src="./assets/folder.png"></a>
+    Current : ${this.current.value.url}   <a href="${this.current.value.url}" target="_blank"><img src="./assets/folder.png"></a>
     </div>
-    <!--
-    ***
-    <ace-widget placeholder="Write something... Anything..." initial-focus>
-    </ace-widget>***
-    <ace-widget theme="ace/theme/eclipse" softtabs="true" wrap="true" value="This is a nice widget">
-    </ace-widget>
-    <ace-widget id="aceone" theme="ace/theme/ambiance" softtabs="true" wrap="true">
-    This is a nice widget... and we are writing a long text here to show the effets of the \`wrap\` attribute.
-    </ace-widget>-->
-
     <ace-widget
     id="acetwo"
     theme="ace/theme/monokai"
@@ -60,23 +49,13 @@ class SolidFileditor extends LitElement {
     <paper-button id="save" @click="${() =>  this.save()}" raised>Save Edits / Enregistrer</paper-button>
     <paper-button id="undo" @click="${() =>  this.undo()}" raised>Undo / Annuler</paper-button>
     <p class="${this.myBool?'red':'green'}">${this.log}</p>
-
-    <!--  <h1>Tutoriel</h1>
-    <p>Modus commodo minimum eum te, vero utinam assueverit per eu.</p>
-    <p>Ea duis bonorum nec, falli paulo aliquid ei eum.Has at minim mucius aliquam, est id tempor laoreet.Pro saepe pertinax ei, ad pri animal labores suscipiantur.</p>
-    -6>    </div>
-
-    <div class="card">
-    <spoggy-input></spoggy-input><!--import "../spoggy/spoggy-input.js";-->
-    <!--<solid-login id="solid-login"></solid-login>-->
-
     </div>
     `;
   }
 
   static get properties() {
     return {
-      current: {type: Object, notify: true, observer: "currentChanged"},
+      current: {type: Object,  observer: "currentChanged"},
       contenu: {type: String, value: "contenu de l'éditeur"},
       file: {type: Object},
       myBool: { type: Boolean },
@@ -86,6 +65,7 @@ class SolidFileditor extends LitElement {
 
   connectedCallback(){
     super.connectedCallback();
+    this.current.value={}
     this.file = {},
     this.file.url = "";
     this.myBool = true;

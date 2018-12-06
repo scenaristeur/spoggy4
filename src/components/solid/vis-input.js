@@ -22,7 +22,6 @@ import { SolidTools } from "./solid-tools.js"
 class VisInput extends LitElement {
   render() {
     return html`
-    SOLID GRAPH
     <paper-input id="input"
     label="3 mots, une virgule et Entrée"
     @change="${() =>  this._inputChanged()}"

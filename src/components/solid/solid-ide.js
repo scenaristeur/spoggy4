@@ -24,20 +24,19 @@ class SolidIde extends LitElement {
   render() {
     return html`
     <section>
-    <paper-collapse-item header="Current">
+    <paper-collapse-item header="Current" opened>
     <solid-current current=${this.current}></solid-current>
     </paper-collapse-item>
     </section>
 
     <section>
-    <paper-collapse-item header="FolderMenu">
+    <paper-collapse-item header="FolderMenu" >
     <solid-foldermenu current=${this.current}></solid-foldermenu>
     </paper-collapse-item>
-    <paper-collapse-item header="Editor">
-    editor
+    <paper-collapse-item header="Editor" opened>
     <solid-fileeditor current=${this.current}></solid-fileeditor>
     </paper-collapse-item>
-    <paper-collapse-item header="Graph">
+    <paper-collapse-item header="Graph" opened>
     <solid-graph id="spoggy-graph" current=${this.current}></solid-graph>
     </paper-collapse-item>
     <!--  <solid-filemanager current={{current}}></solid-filemanager>

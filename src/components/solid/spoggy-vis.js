@@ -148,8 +148,8 @@ class SpoggyVis extends LitElement {
     addToGraph(data){
       console.log(data)
 
-      this.network.body.data.nodes.add(data.nodes)
-      this.network.body.data.edges.add(data.edges)
+      this.network.body.data.nodes.update(data.nodes)
+      this.network.body.data.edges.update(data.edges)
     }
 
 

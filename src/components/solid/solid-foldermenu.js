@@ -27,13 +27,7 @@ class SolidFoldermenu extends LitElement {
     return html`
     ${SharedStyles}
     ${SolidStyles}
-
-    <h1>Foldermenu</h1>
-
-
     <div class="card">
-    <!--  <div class="circle">IdeFoldermenu</div>-->
-
     <button on-tap="manageResource(${this.folder})" class="docIcon" v-bind:class="canControl()">
     <img src="./assets/folder.png">
     </button>

@@ -109,6 +109,7 @@ class SolidCurrent extends LitElement {
   }
 
   urlChanged(url){
+    console.log("\n\n urlChanged",url)
     this.shadowRoot.getElementById("currentInput").value = url;
     this.go();
   }
