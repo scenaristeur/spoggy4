@@ -33,7 +33,7 @@ class SolidIde extends LitElement {
     <paper-collapse-item header="FolderMenu" >
     <solid-foldermenu current=${this.current}></solid-foldermenu>
     </paper-collapse-item>
-    <paper-collapse-item header="Editor" opened>
+    <paper-collapse-item header="Editor" >
     <solid-fileeditor current=${this.current}></solid-fileeditor>
     </paper-collapse-item>
     <paper-collapse-item header="Graph" opened>

@@ -70,7 +70,7 @@ class SolidCurrent extends LitElement {
         app.current = {}
         app.public = "https://smag0.solid.community/public/"
         app.thing = {}
-      //  app.urlChanged(app.public)
+        //  app.urlChanged(app.public)
       }
       else{
         console.log(`The user is ${session.webId}`)
@@ -109,11 +109,20 @@ class SolidCurrent extends LitElement {
     this.agentCurrent.send('agentGraph', {type: 'currentChanged', current: this.current });
   }
 
-  urlChanged(url){
-    console.log("\n\n urlChanged",url)
-    this.shadowRoot.getElementById("currentInput").value = url;
-    this.go();
-  }
+  currentChanged(current){
+    console.log(current)
+    this.current = current;
+    this.public = this.current.value.url;
+    this.thing = this.current;
+    /*  this.agentGraph.send('agentVis', {type: 'clear' });
+    if (this.current.key == "folder"){
+    this.folder2vis(this.current.value)
+  }else if (this.current.key == "file"){
+  this.file2vis(this.current)
+}else{
+console.log("Current.key inconnu",current.key)
+}*/
+}
 
 }
 

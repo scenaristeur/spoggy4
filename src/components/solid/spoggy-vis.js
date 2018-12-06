@@ -8,6 +8,7 @@ import './vis-popup.js';
 import './import-export.js';
 
 
+
 class SpoggyVis extends LitElement {
 
   render() {
@@ -128,9 +129,38 @@ class SpoggyVis extends LitElement {
       };
 
       app.network = new vis.Network(container, data, options);
-      app.network.on("selectNode", function (params) {
+      app.network.on("selectNode", async function (params) {
         console.log('selectNode Event: ', params);
-        app.agentVis.send('agentCurrent', {type: "urlChanged", url: params.nodes[0]});
+        var id = params.nodes[0];
+        var existNode;
+        try{
+          existNode = app.network.body.data.nodes.get({
+            filter: function(node){
+              return (node.id == id );
+            }
+          });
+          console.log(existNode);
+          if (existNode.length != 0){
+            console.log("existe")
+            app.agentVis.send('agentGraph', {type: "nodeChanged", node: existNode[0]});
+            //  app.agentVis.send('agentFileeditor', {type: "nodeChanged", node: existNode[0]});
+            //  app.agentVis.send('agentFoldermenu', {type: "nodeChanged", node: existNode[0]});
+            //  network.body.data.nodes.add(data);
+            //  var thing = this.thing;
+
+          }else{
+
+            console.log("n'existe pas")
+            //  delete data.x;
+            //  delete data.y
+            //  network.body.data.nodes.update(data);
+
+          }
+        }
+        catch (err){
+          console.log(err);
+        }
+        //  app.agentVis.send('agentCurrent', {type: "urlChanged", url: params.nodes[0]});
       });
       console.log(app.network)
     }
@@ -150,6 +180,12 @@ class SpoggyVis extends LitElement {
 
       this.network.body.data.nodes.update(data.nodes)
       this.network.body.data.edges.update(data.edges)
+    }
+
+    fileChanged(file){
+      console.log(file);
+      this.ttl2Xml(file.value.content, this.network)
+
     }
 
 

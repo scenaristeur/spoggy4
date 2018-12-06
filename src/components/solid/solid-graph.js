@@ -23,7 +23,7 @@ import './spoggy-vis.js'
 class SolidGraph extends LitElement {
   render() {
     return html`
-<!--PB SUR LIGNE SUIVANTE  : attributeValue is null -->
+    <!--PB SUR LIGNE SUIVANTE  : attributeValue is null -->
     <paper-input id="currentInput" label="Current Folder / Dossier Courant" value="${this.current.value.url}"></paper-input>
     <spoggy-vis id="spoggy-vis" current=${this.current} data=${this.data}></spoggy-vis>
     `;
@@ -113,6 +113,17 @@ class SolidGraph extends LitElement {
     }
   }
 
+  async nodeChanged(node){
+    var thing = {};
+    thing.url = node.id;
+    this.current =  await this.st.get(thing);
+    console.log("RESULT : ",this.current)
+    this.agentGraph.send('agentCurrent', {type: 'currentChanged', current: this.current });
+    this.agentGraph.send('agentFileeditor', {type: 'currentChanged', current: this.current });
+    this.agentGraph.send('agentFoldermenu', {type: 'currentChanged', current: this.current });
+    this.currentChanged(this.current)
+  }
+
   folder2vis(sfolder){
     var app = this;
     console.log('sfolder')
@@ -123,24 +134,34 @@ class SolidGraph extends LitElement {
     //  var folders = sfolder.folders||"Folders";
     //  var files = sfolder.files|| "Files";
 
-    var nodes = [
-      {id: url, label: name, type: "folder"},
-      //  {id: "urlNode"+url, label: url},
-      {id: parent, label: parent}/*,
-      {id: "folderCluster", label: folders},
-      {id: "fileCluster", label: files}*/
-    ];
+    var nodes = [];
+    var edges = [];
+    nodes.push({id: url, label: name, type: "folder"});
+    nodes.push({id:'folders', label:"Folder"});
+    edges.push({from:url, to: 'folders', arrows: 'to', label:"type"});
+    console.log("PAREnT", parent)
+
+    if (parent != undefined){
+      console.log("undef")
+      nodes.push({id: parent, label: parent, type: "folder"});
+      edges.push({from: url, to: parent, arrows:'to', label: "parent"});
+    }
+    //  {id: "urlNode"+url, label: url},
+    /*,
+    {id: "folderCluster", label: folders},
+    {id: "fileCluster", label: files}*/
+
 
     // create an array with edges
-    var edges = [
-      //{from: url, to: "urlNode"+url, arrows:'to', label: "url"},
-      {from: url, to: parent, arrows:'to', label: "parent"}/*,
-      {from: url, to: "folderCluster", arrows:'to', label: "folders"},
-      {from: url, to: "fileCluster", arrows:'to', label: "files"},*/
-    ];
+
+    //{from: url, to: "urlNode"+url, arrows:'to', label: "url"},
+    /*,
+    {from: url, to: "folderCluster", arrows:'to', label: "folders"},
+    {from: url, to: "fileCluster", arrows:'to', label: "files"},*/
+
 
     if (sfolder.folders && sfolder.folders.length >0){
-      nodes.push({id:'folders', label:"Folder"});
+
       sfolder.folders.forEach(function(fo){
         if(fo.name != ".."){
           app.folder2vis(fo)
@@ -156,7 +177,7 @@ class SolidGraph extends LitElement {
       nodes.push({id:'files', label:"File"});
       sfolder.files.forEach(function(fi){
         console.log(fi)
-        app.file2vis(fi)
+        //  app.file2vis(fi)
         var node = {id:fi.url, label:fi.label, type: 'file'};
         console.log(node)
         nodes.push(node);
@@ -176,8 +197,8 @@ class SolidGraph extends LitElement {
   }
 
   file2vis(sfile){
-
     console.log('sfile',sfile)
+    //this.agentGraph.send('agentVis', {type: 'fileChanged', file: sfile });
   }
 
 }
