@@ -44,6 +44,10 @@ CurrentAgent.prototype.receive = function(from, message) {
     console.log("visresults", message.visresults);
     this.app.updateNetwork(message.visresults);
     break;
+    case 'urlChanged':
+    console.log("urlChanged", message.url);
+    this.app.urlChanged(message.url);
+    break;
 
 
     default:

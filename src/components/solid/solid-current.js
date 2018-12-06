@@ -43,9 +43,9 @@ class SolidCurrent extends LitElement {
     super.connectedCallback();
     var app = this;
     //console.log( 'id : ', this.id);
-this.agentCurrent = new CurrentAgent("agentCurrent", this);
-console.log(this.agentCurrent);
-//this.agentVis.send('agentApp', {type: 'dispo', name: this.id });
+    this.agentCurrent = new CurrentAgent("agentCurrent", this);
+    console.log(this.agentCurrent);
+    //this.agentVis.send('agentApp', {type: 'dispo', name: this.id });
 
     console.log(solid)
     console.log($rdf)
@@ -108,6 +108,10 @@ console.log(this.agentCurrent);
     this.agentCurrent.send('agentGraph', {type: 'currentChanged', current: this.current });
   }
 
+  urlChanged(url){
+    this.shadowRoot.getElementById("currentInput").value = url;
+    this.go();
+  }
 
 }
 

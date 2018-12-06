@@ -130,6 +130,7 @@ class SpoggyVis extends LitElement {
       app.network = new vis.Network(container, data, options);
       app.network.on("selectNode", function (params) {
         console.log('selectNode Event: ', params);
+        app.agentVis.send('agentCurrent', {type: "urlChanged", url: params.nodes[0]});
       });
       console.log(app.network)
     }
