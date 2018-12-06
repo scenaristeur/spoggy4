@@ -5,6 +5,7 @@ import { VisAgent } from './agents/VisAgent.js'
 import { GraphStyles } from './graph-styles.js';
 import './vis-input.js';
 import './vis-popup.js';
+import './import-export.js';
 
 
 class SpoggyVis extends LitElement {
@@ -34,8 +35,8 @@ class SpoggyVis extends LitElement {
   firstUpdated(){
     var app = this;
 
-    console.log( 'id : ', this.id);
-    this.agentVis = new VisAgent(this.id, this);
+    //console.log( 'id : ', this.id);
+    this.agentVis = new VisAgent("agentVis", this);
     console.log(this.agentVis);
     //this.agentVis.send('agentApp', {type: 'dispo', name: this.id });
 
@@ -138,22 +139,33 @@ class SpoggyVis extends LitElement {
       this.popup = null;
       console.log("SAVENODE :",data)
     }
+    /////////
+    clear(){
+      this.network.body.data.nodes.clear();
+      this.network.body.data.edges.clear();
+    }
+    addToGraph(data){
+      console.log(data)
 
-
-
-  /*  updated(changedProperties){
-      super.updated(changedProperties)
-      changedProperties.forEach((oldValue, propName) => {
-        console.log(`${propName} changed. oldValue: ${oldValue}`);
-        console.log("responseData UPDATED: ",this.responseData)
-      });
+      this.network.body.data.nodes.add(data.nodes)
+      this.network.body.data.edges.add(data.edges)
     }
 
-    attributeChangedCallback(name, oldval, newval) {
-      console.log('attribute change: ', name, oldval, newval);
-      super.attributeChangedCallback(name, oldval, newval);
-    }*/
 
-  }
 
-  window.customElements.define('spoggy-vis', SpoggyVis);
+    /*  updated(changedProperties){
+    super.updated(changedProperties)
+    changedProperties.forEach((oldValue, propName) => {
+    console.log(`${propName} changed. oldValue: ${oldValue}`);
+    console.log("responseData UPDATED: ",this.responseData)
+  });
+}
+
+attributeChangedCallback(name, oldval, newval) {
+console.log('attribute change: ', name, oldval, newval);
+super.attributeChangedCallback(name, oldval, newval);
+}*/
+
+}
+
+window.customElements.define('spoggy-vis', SpoggyVis);

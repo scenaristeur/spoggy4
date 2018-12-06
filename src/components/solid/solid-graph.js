@@ -25,8 +25,7 @@ class SolidGraph extends LitElement {
     return html`
     SOLID GRAPH
     <paper-input id="currentInput" label="Current Folder / Dossier Courant" value="${this.current.value.url}"></paper-input>
-    <paper-button id="goBtn" raised   @click="${this.go}">Go</paper-button>
-    <spoggy-vis id="spoggy-vis" current=${this.current}></spoggy-vis>
+    <spoggy-vis id="spoggy-vis" current=${this.current} data=${this.data}></spoggy-vis>
     `;
   }
 
@@ -69,7 +68,7 @@ class SolidGraph extends LitElement {
     solid.auth.trackSession(session => {
       if (!session){
         console.log('The user is not logged in')
-      /*  app.context = null;
+        /*  app.context = null;
         //app.$.podInput.value = ""
         app.current = {}
         app.public = "https://smag0.solid.community/public/"
@@ -77,7 +76,7 @@ class SolidGraph extends LitElement {
       }
       else{
         console.log(`The user is ${session.webId}`)
-      /*  app.context = {}
+        /*  app.context = {}
         app.context.wedId = session.webId;
 
         app.context.me = $rdf.sym(session.webId)
@@ -100,12 +99,81 @@ class SolidGraph extends LitElement {
     })
   }
 
-currentChanged(current){
-  console.log(current)
-  this.current = current;
-}
+  currentChanged(current){
+    console.log(current)
+    this.current = current;
+    this.agentGraph.send('agentVis', {type: 'clear' });
+    if (this.current.key == "folder"){
+      this.folder2vis(this.current.value)
+    }else if (this.current.key == "file"){
+      this.file2vis(this.current)
+    }else{
+      console.log("Current.key inconnu",current.key)
+    }
+  }
+
+  folder2vis(sfolder){
+    var app = this;
+    console.log('sfolder')
+    console.log(sfolder)
+    var name = sfolder.name;
+    var url = sfolder.url;
+    var parent = sfolder.parent;
+    //  var folders = sfolder.folders||"Folders";
+    //  var files = sfolder.files|| "Files";
+
+    var nodes = [
+      {id: url, label: name, type: "folder"},
+      //  {id: "urlNode"+url, label: url},
+      {id: parent, label: parent}/*,
+      {id: "folderCluster", label: folders},
+      {id: "fileCluster", label: files}*/
+    ];
+
+    // create an array with edges
+    var edges = [
+      //{from: url, to: "urlNode"+url, arrows:'to', label: "url"},
+      {from: url, to: parent, arrows:'to', label: "parent"}/*,
+      {from: url, to: "folderCluster", arrows:'to', label: "folders"},
+      {from: url, to: "fileCluster", arrows:'to', label: "files"},*/
+    ];
+
+    if (sfolder.folders){
+      nodes.push({id:'folders', label:"Folder"});
+      sfolder.folders.forEach(function(fo){
+        if(fo.name != ".."){
+          app.folder2vis(fo)
+          nodes.push([{id:fo.url, label:fo.name, type: 'folder'}]);
+          edges.push({from:url, to: fo.url, arrows: 'to', label:"folder"});
+          edges.push({from:fo.url, to: 'folders', arrows: 'to', label:"type"});
+        }
+      })
+    }
+    if (sfolder.files){
+      nodes.push({id:'files', label:"File"});
+      sfolder.files.forEach(function(fi){
+        console.log(fi)
+        app.file2vis(fi)
+        nodes.push({id:fi.url, label:fi.label, type: 'file'});
+        edges.push({from:url, to: fi.url, arrows: 'to', label:"file"});
+        edges.push({from:fi.url, to: 'files', arrows: 'to', label:"type"});
+      })
+    }
+
+    var  data = {
+      nodes: nodes,
+      edges: edges
+    };
+    console.log(data)
 
 
+    this.agentGraph.send('agentVis', {type: 'addToGraph', data: data });
+  }
+
+  file2vis(sfile){
+
+    console.log('sfile',sfile)
+  }
 
 }
 
