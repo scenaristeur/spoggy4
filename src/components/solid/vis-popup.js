@@ -41,6 +41,7 @@ class VisPopup extends LitElement {
       padding:1px;
     }
     </style>
+    Web Components are <span class="mood">${this.mood}</span>!<br>
     Shape : ${this.selectedShape}<br>
     Color : ${this.colorValue}
     <hr>
@@ -237,6 +238,7 @@ class VisPopup extends LitElement {
   static get properties() {
 
     return {
+      mood: {type: String},
       parent: {type: String},
       selectedShape: {type: String},
       colorValue: {type: Object}
@@ -245,6 +247,7 @@ class VisPopup extends LitElement {
 
   constructor() {
     super();
+    this.mood = 'vis-popup';
     this.colorValue = "rgb(173,208,255)";
     this.selectedShape = "box";
   }

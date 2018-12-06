@@ -23,6 +23,7 @@ import './spoggy-vis.js'
 class SolidGraph extends LitElement {
   render() {
     return html`
+<!--PB SUR LIGNE SUIVANTE  : attributeValue is null -->
     <paper-input id="currentInput" label="Current Folder / Dossier Courant" value="${this.current.value.url}"></paper-input>
     <spoggy-vis id="spoggy-vis" current=${this.current} data=${this.data}></spoggy-vis>
     `;

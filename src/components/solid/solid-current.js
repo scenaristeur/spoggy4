@@ -70,6 +70,7 @@ class SolidCurrent extends LitElement {
         app.current = {}
         app.public = "https://smag0.solid.community/public/"
         app.thing = {}
+      //  app.urlChanged(app.public)
       }
       else{
         console.log(`The user is ${session.webId}`)
