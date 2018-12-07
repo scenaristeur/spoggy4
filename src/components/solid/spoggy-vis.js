@@ -214,69 +214,89 @@ class SpoggyVis extends LitElement {
       //  console.log(file.value.content)
       var data = JSON.parse(file.value.content);
       console.log(data)
-    //  console.log(typeof data)
-        this.network.body.data.nodes.update(data.nodes)
-        this.network.body.data.edges.update(data.edges)
-    /*  console.log(data.nodes)
+      //  console.log(typeof data)
+      this.network.body.data.nodes.update(data.nodes)
+      this.network.body.data.edges.update(data.edges)
+      /*  console.log(data.nodes)
       console.log(data.edges)
       data.nodes.forEach(function(n){
-        console.log(n)
-      })
+      console.log(n)
+    })
 
-      data.edges.forEach(function(e){
-        console.log(e)
-      })*/
-    }
-
-
-
-    parseTurtle(file){
-        var app = this;
-      //  console.log(file.value.content)
-      //  ttl2Xml(file.value.content, this.network)
-      /* TEST AVEC STORE+SPARQL, mais on a dejà les infos dans file.value.content */
-      const store = $rdf.graph();
-      console.log(store)
-      const fetcher = new $rdf.Fetcher(store);
-      console.log(fetcher)
-      fetcher.load(file.value.url).then( response => {
-        console.log(response)
-        console.log(store)
-        console.log(store.statements)
-        var edges=[];
-        store.statements.forEach(function (s){
-          var nodeSujetTemp = {
-            id: s.subject.value,
-            label: s.subject.value,
-            type: "node"
-          };
-          var nodeObjetTemp = {
-            id:  s.object.value,
-            label: s.object.value,
-            type: "node"
-          };
-          addNodeIfNotExist(app.network, nodeSujetTemp)
-          addNodeIfNotExist(app.network, nodeObjetTemp)
-          edges.push({from:s.subject.value, to: s.object.value, arrows: 'to', label:s.predicate.value});
-          console.log(edges)
-          app.network.body.data.edges.update(edges)
-        })
-      })
-      /*let name = store.any(person, VCARD(‘fn’));
-      if (name) {
-      label.textContent =  name.value; // name is a Literal object
-    }*/
-  }
+    data.edges.forEach(function(e){
+    console.log(e)
+  })*/
+}
 
 
 
+parseTurtle(file){
+  var app = this;
+  //  console.log(file.value.content)
+  //  ttl2Xml(file.value.content, this.network)
+  /* TEST AVEC STORE+SPARQL, mais on a dejà les infos dans file.value.content */
+  const store = $rdf.graph();
+  console.log(store)
+  const fetcher = new $rdf.Fetcher(store);
+  console.log(fetcher)
+  fetcher.load(file.value.url).then( response => {
+    console.log(response)
+    console.log(store)
+    console.log(store.statements)
+    var edges=[];
+    store.statements.forEach(function (s){
+      var nodeSujetTemp = {
+        id: s.subject.value,
+        label: s.subject.value,
+        type: "node"
+      };
+      var nodeObjetTemp = {
+        id:  s.object.value,
+        label: s.object.value,
+        type: "node"
+      };
+      addNodeIfNotExist(app.network, nodeSujetTemp)
+      addNodeIfNotExist(app.network, nodeObjetTemp)
+      edges.push({from:s.subject.value, to: s.object.value, arrows: 'to', label:s.predicate.value});
+      console.log(edges)
+      app.network.body.data.edges.update(edges)
+    })
+  })
+  /*let name = store.any(person, VCARD(‘fn’));
+  if (name) {
+  label.textContent =  name.value; // name is a Literal object
+}*/
+}
 
 
-  /*  updated(changedProperties){
-  super.updated(changedProperties)
-  changedProperties.forEach((oldValue, propName) => {
-  console.log(`${propName} changed. oldValue: ${oldValue}`);
-  console.log("responseData UPDATED: ",this.responseData)
+// implementation of import-export.js utilities
+newGraph(){
+  newGraph(this.network)
+}
+
+exportTtl(){
+  var output = exportTtl(this.network)
+  this.agentVis.send('visPopup', {type:'exportTtl', ttlData : output});
+}
+
+exportJson(){
+  exportJson(this.network)
+}
+
+importJson(){
+  console.log("pas encore traité")
+  this.agentVis.send('visPopup', {type: 'toggle', popup:'importPopUp'})
+}
+decortiqueFile(fichier, remplaceNetwork){
+  decortiqueFile(fichier, remplaceNetwork, this.network)
+}
+
+
+/*  updated(changedProperties){
+super.updated(changedProperties)
+changedProperties.forEach((oldValue, propName) => {
+console.log(`${propName} changed. oldValue: ${oldValue}`);
+console.log("responseData UPDATED: ",this.responseData)
 });
 }
 

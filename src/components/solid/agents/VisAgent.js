@@ -121,6 +121,11 @@ VisAgent.prototype.receive = function(from, message) {
     console.log("savenode", message.data);
     this.app.savenode(message.data);
     break;
+    case 'decortiqueFile':
+    console.log("decortiqueFile");
+    this.app.decortiqueFile(message);
+    break;
+
 
 
     default:

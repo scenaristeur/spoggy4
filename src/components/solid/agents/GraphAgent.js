@@ -50,6 +50,7 @@ GraphAgent.prototype.receive = function(from, message) {
     break;
 
 
+
     default:
     console.log(message);
   }
