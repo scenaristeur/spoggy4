@@ -284,9 +284,9 @@ exportJson(){
 }
 
 importJson(){
-  console.log("pas encore traité")
   this.agentVis.send('visPopup', {type: 'toggle', popup:'importPopUp'})
 }
+
 decortiqueFile(fichier, remplaceNetwork){
   decortiqueFile(fichier, remplaceNetwork, this.network)
 }
