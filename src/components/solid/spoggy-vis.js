@@ -195,6 +195,37 @@ class SpoggyVis extends LitElement {
     fileChanged(file){
       var app = this;
       console.log(file);
+
+      switch(file.value.type) {
+        case "application/json":
+        this.parseJson(file)
+        break;
+        case "text/turtle":
+        this.parseTurtle(file)
+        break;
+        default:
+        this.parseTurtle(file)
+      }
+
+    }
+
+    parseJson(file){
+      console.log("JSON")
+      console.log(file.value.content)
+      var data = file.value.content;
+      console.log(data)
+      //  this.network.body.data.nodes.update(data.nodes)
+      //  this.network.body.data.edges.update(data.edges)
+      console.log(data.nodes)
+      console.log(data.edges)
+      data.nodes.forEach(function(n){
+        console.log(n)
+      })
+    }
+
+
+
+    parseTurtle(file){
       //  console.log(file.value.content)
       //  ttl2Xml(file.value.content, this.network)
       /* TEST AVEC STORE+SPARQL, mais on a dejà les infos dans file.value.content */
@@ -208,7 +239,6 @@ class SpoggyVis extends LitElement {
         console.log(store.statements)
         var edges=[];
         store.statements.forEach(function (s){
-
           var nodeSujetTemp = {
             id: s.subject.value,
             label: s.subject.value,
@@ -219,27 +249,20 @@ class SpoggyVis extends LitElement {
             label: s.object.value,
             type: "node"
           };
-
-
           addNodeIfNotExist(app.network, nodeSujetTemp)
           addNodeIfNotExist(app.network, nodeObjetTemp)
           edges.push({from:s.subject.value, to: s.object.value, arrows: 'to', label:s.predicate.value});
           console.log(edges)
           app.network.body.data.edges.update(edges)
         })
-
-
-
       })
-
-
       /*let name = store.any(person, VCARD(‘fn’));
       if (name) {
       label.textContent =  name.value; // name is a Literal object
     }*/
-
-
   }
+
+
 
 
 
