@@ -193,7 +193,7 @@ class SpoggyVis extends LitElement {
     }
 
     fileChanged(file){
-      var app = this;
+
       console.log(file);
 
       switch(file.value.type) {
@@ -210,22 +210,28 @@ class SpoggyVis extends LitElement {
     }
 
     parseJson(file){
-      console.log("JSON")
-      console.log(file.value.content)
-      var data = file.value.content;
+      console.log("JSON\n\n")
+      //  console.log(file.value.content)
+      var data = JSON.parse(file.value.content);
       console.log(data)
-      //  this.network.body.data.nodes.update(data.nodes)
-      //  this.network.body.data.edges.update(data.edges)
-      console.log(data.nodes)
+    //  console.log(typeof data)
+        this.network.body.data.nodes.update(data.nodes)
+        this.network.body.data.edges.update(data.edges)
+    /*  console.log(data.nodes)
       console.log(data.edges)
       data.nodes.forEach(function(n){
         console.log(n)
       })
+
+      data.edges.forEach(function(e){
+        console.log(e)
+      })*/
     }
 
 
 
     parseTurtle(file){
+        var app = this;
       //  console.log(file.value.content)
       //  ttl2Xml(file.value.content, this.network)
       /* TEST AVEC STORE+SPARQL, mais on a dejà les infos dans file.value.content */
