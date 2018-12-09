@@ -1,0 +1,7 @@
+{
+  "name": "S.P.O.G.G.Y.4",
+  "description": "Create your own rdf graphs",
+  "repository": "https://github.com/scenaristeur/spoggy4",
+  "logo": "https://nodejs.org/static/images/logos/nodejs-new-pantone-black.png",
+  "keywords": ["node", "express", "rdf", "levelgraph", "vis", "polymer", "smag0"]
+}
