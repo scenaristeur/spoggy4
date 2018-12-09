@@ -22,7 +22,7 @@ import { SolidTools } from "./solid-tools.js"
 class SolidCurrent extends LitElement {
   render() {
     return html`
-    <paper-input id="currentInput" label="Current Folder / Dossier Courant" value="${this.public}"></paper-input>
+    <paper-input id="currentInput" label="Current Folder / Dossier Courant" value="${this.current.value.url}"></paper-input>
     <paper-button id="goBtn" raised   @click="${this.go}">Go</paper-button>
     `;
   }
@@ -33,10 +33,16 @@ class SolidCurrent extends LitElement {
       fetcher: Object,
       context: {type: Object, value: {}},
       webId: Object,
-      public: {type: String, notify: true},
-      current: {type: Object, notify: true},
+      //  public: {type: String, notify: true},
+      current: {type: Object, value: {value: {url: ""}}},
       thing: {type: Object, value: {}}
     }
+  }
+
+  constructor(){
+    super();
+
+    //  this.current.value.url = "https://smag0.solid.community/public/"
   }
 
   connectedCallback(){
@@ -50,6 +56,11 @@ class SolidCurrent extends LitElement {
     console.log(solid)
     console.log($rdf)
     app.thing={}
+    this.current = {}
+    this.current.key = "folder"
+    this.current.value = {}
+    this.current.value.url = "https://smag0.solid.community/public/"
+    console.log("\n\n\nCURRENT",this.current)
     //  this.fileclient = new SolidFileClient();
     this.st = new SolidTools();
     this.st.fileclient = new SolidFileClient();
@@ -67,8 +78,7 @@ class SolidCurrent extends LitElement {
         console.log('The user is not logged in')
         app.context = null;
         //app.$.podInput.value = ""
-        app.current = {}
-        app.public = "https://smag0.solid.community/public/"
+        app.current.value.url = "https://smag0.solid.community/public/"
         app.thing = {}
         //  app.urlChanged(app.public)
         app.go()
@@ -91,30 +101,35 @@ class SolidCurrent extends LitElement {
         var wedIdSpilt = session.webId.split("/");
         this._webIdRoot = wedIdSpilt[0]+"//"+wedIdSpilt[2]+"/";
         console.log(this._webIdRoot);
-        app.public = this._webIdRoot+"public/";
+        app.current.value.url = this._webIdRoot+"public/";
+        app.url = app.current.value.url;
         //  this.loadProfileDocument();
+        app.go()
       }
 
     })
   }
 
   async go(){
+
     console.log(this.shadowRoot.getElementById("currentInput").value)
-    this.thing.url = this.shadowRoot.getElementById("currentInput").value;
-    var thing = this.thing;
-    this.current = await this.st.get(thing);
+    this.thing.url = this.url;
+    console.log(this.thing)
+    //var thing = this.thing;
+    this.current = await this.st.get(this.thing);
     console.log("RESULT : ",this.current)
     //this.dispatchEvent(new CustomEvent('current-changed', this.current));
     this.agentCurrent.send('agentFoldermenu', {type: 'currentChanged', current: this.current });
     this.agentCurrent.send('agentFileeditor', {type: 'currentChanged', current: this.current });
     this.agentCurrent.send('agentGraph', {type: 'currentChanged', current: this.current });
+    
   }
 
   currentChanged(current){
     console.log(current)
     this.current = current;
-    this.public = this.current.value.url;
-    this.thing = this.current;
+    //  this.public = this.current.value.url;
+    this.thing = this.current.value.url;
     /*  this.agentGraph.send('agentVis', {type: 'clear' });
     if (this.current.key == "folder"){
     this.folder2vis(this.current.value)

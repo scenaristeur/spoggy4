@@ -51,7 +51,7 @@ class SolidIde extends LitElement {
     </section>
     <section>
     <paper-collapse-item header="Editor" >
-    
+
     <solid-fileeditor current=${this.current}></solid-fileeditor>
 
     </paper-collapse-item>

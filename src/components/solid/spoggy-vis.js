@@ -244,28 +244,30 @@ parseTurtle(file){
     console.log(store)
     console.log(store.statements)
     var edges=[];
-    store.statements.forEach(function (s){
-      var nodeSujetTemp = {
-        id: s.subject.value,
-        label: s.subject.value,
-        type: "node"
-      };
-      var nodeObjetTemp = {
-        id:  s.object.value,
-        label: s.object.value,
-        type: "node"
-      };
-      addNodeIfNotExist(app.network, nodeSujetTemp)
-      addNodeIfNotExist(app.network, nodeObjetTemp)
-      edges.push({from:s.subject.value, to: s.object.value, arrows: 'to', label:s.predicate.value});
-      console.log(edges)
-      app.network.body.data.edges.update(edges)
+    console.log(store.statements)
+    if (store.statements.length > 0){
+      store.statements.forEach(function (s){
+        var nodeSujetTemp = {
+          id: s.subject.value,
+          label: s.subject.value,
+          type: "node"
+        };
+        var nodeObjetTemp = {
+          id:  s.object.value,
+          label: s.object.value,
+          type: "node"
+        };
+        addNodeIfNotExist(app.network, nodeSujetTemp)
+        addNodeIfNotExist(app.network, nodeObjetTemp)
+        edges.push({from:s.subject.value, to: s.object.value, arrows: 'to', label:s.predicate.value});
+        console.log(edges)
+        app.network.body.data.edges.update(edges)
+      })}
     })
-  })
-  /*let name = store.any(person, VCARD(‘fn’));
-  if (name) {
-  label.textContent =  name.value; // name is a Literal object
-}*/
+    /*let name = store.any(person, VCARD(‘fn’));
+    if (name) {
+    label.textContent =  name.value; // name is a Literal object
+  }*/
 }
 
 
