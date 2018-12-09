@@ -43,9 +43,9 @@ class SolidCurrent extends LitElement {
     super.connectedCallback();
     var app = this;
     //console.log( 'id : ', this.id);
-this.agentCurrent = new CurrentAgent("agentCurrent", this);
-console.log(this.agentCurrent);
-//this.agentVis.send('agentApp', {type: 'dispo', name: this.id });
+    this.agentCurrent = new CurrentAgent("agentCurrent", this);
+    console.log(this.agentCurrent);
+    //this.agentVis.send('agentApp', {type: 'dispo', name: this.id });
 
     console.log(solid)
     console.log($rdf)
@@ -70,6 +70,9 @@ console.log(this.agentCurrent);
         app.current = {}
         app.public = "https://smag0.solid.community/public/"
         app.thing = {}
+        //  app.urlChanged(app.public)
+        app.go()
+        app.shadowRoot.getElementById("currentInput").label = "Parcourir un pod public sans être connecté"
       }
       else{
         console.log(`The user is ${session.webId}`)
@@ -89,7 +92,6 @@ console.log(this.agentCurrent);
         this._webIdRoot = wedIdSpilt[0]+"//"+wedIdSpilt[2]+"/";
         console.log(this._webIdRoot);
         app.public = this._webIdRoot+"public/";
-
         //  this.loadProfileDocument();
       }
 
@@ -108,6 +110,20 @@ console.log(this.agentCurrent);
     this.agentCurrent.send('agentGraph', {type: 'currentChanged', current: this.current });
   }
 
+  currentChanged(current){
+    console.log(current)
+    this.current = current;
+    this.public = this.current.value.url;
+    this.thing = this.current;
+    /*  this.agentGraph.send('agentVis', {type: 'clear' });
+    if (this.current.key == "folder"){
+    this.folder2vis(this.current.value)
+  }else if (this.current.key == "file"){
+  this.file2vis(this.current)
+}else{
+console.log("Current.key inconnu",current.key)
+}*/
+}
 
 }
 

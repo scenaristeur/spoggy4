@@ -8,28 +8,26 @@ import './vis-popup.js';
 import './import-export.js';
 
 
+
 class SpoggyVis extends LitElement {
 
   render() {
     return html`
     ${GraphStyles}
-    Spoggy Vis Web Components are <span class="mood">${this.mood}</span>!<br>
-    <vis-input id="visInput" destinataire="${this.id}"></vis-input>
+    <vis-input id="visInput" destinataire="agentVis"></vis-input>
     <div id="mynetwork"></div>
-    <vis-popup id="visPopup" parent="${this.id}"></vis-popup>
+    <vis-popup id="visPopup" parent="agentVis"></vis-popup>
     `;
   }
 
   static get properties() {
     return {
       id: {type: String, value:""},
-      mood: {type: String}
     };
   }
 
   constructor() {
     super();
-    this.mood = 'Spoggy Vis';
   }
 
   firstUpdated(){
@@ -128,8 +126,51 @@ class SpoggyVis extends LitElement {
       };
 
       app.network = new vis.Network(container, data, options);
-      app.network.on("selectNode", function (params) {
+
+      app.network.on("selectNode", async function (params) {
         console.log('selectNode Event: ', params);
+        var existNode = app.network.body.data.nodes.get({
+          filter: function(node){
+            return (node.id == params.nodes[0] );
+          }
+        });
+        console.log(existNode);
+      })
+
+
+
+      app.network.on("doubleClick", async function (params) {
+        console.log('selectNode Event: ', params);
+        var id = params.nodes[0];
+        var existNode;
+        try{
+          existNode = app.network.body.data.nodes.get({
+            filter: function(node){
+              return (node.id == id );
+            }
+          });
+          console.log(existNode);
+          if (existNode.length != 0){
+            console.log("existe")
+            app.agentVis.send('agentGraph', {type: "nodeChanged", node: existNode[0]});
+            //  app.agentVis.send('agentFileeditor', {type: "nodeChanged", node: existNode[0]});
+            //  app.agentVis.send('agentFoldermenu', {type: "nodeChanged", node: existNode[0]});
+            //  network.body.data.nodes.add(data);
+            //  var thing = this.thing;
+
+          }else{
+
+            console.log("n'existe pas")
+            //  delete data.x;
+            //  delete data.y
+            //  network.body.data.nodes.update(data);
+
+          }
+        }
+        catch (err){
+          console.log(err);
+        }
+        //  app.agentVis.send('agentCurrent', {type: "urlChanged", url: params.nodes[0]});
       });
       console.log(app.network)
     }
@@ -147,18 +188,116 @@ class SpoggyVis extends LitElement {
     addToGraph(data){
       console.log(data)
 
-      this.network.body.data.nodes.add(data.nodes)
-      this.network.body.data.edges.add(data.edges)
+      this.network.body.data.nodes.update(data.nodes)
+      this.network.body.data.edges.update(data.edges)
     }
 
+    fileChanged(file){
+
+      console.log(file);
+
+      switch(file.value.type) {
+        case "application/json":
+        this.parseJson(file)
+        break;
+        case "text/turtle":
+        this.parseTurtle(file)
+        break;
+        default:
+        this.parseTurtle(file)
+      }
+
+    }
+
+    parseJson(file){
+      console.log("JSON\n\n")
+      //  console.log(file.value.content)
+      var data = JSON.parse(file.value.content);
+      console.log(data)
+      //  console.log(typeof data)
+      this.network.body.data.nodes.update(data.nodes)
+      this.network.body.data.edges.update(data.edges)
+      /*  console.log(data.nodes)
+      console.log(data.edges)
+      data.nodes.forEach(function(n){
+      console.log(n)
+    })
+
+    data.edges.forEach(function(e){
+    console.log(e)
+  })*/
+}
 
 
-    /*  updated(changedProperties){
-    super.updated(changedProperties)
-    changedProperties.forEach((oldValue, propName) => {
-    console.log(`${propName} changed. oldValue: ${oldValue}`);
-    console.log("responseData UPDATED: ",this.responseData)
-  });
+
+parseTurtle(file){
+  var app = this;
+  //  console.log(file.value.content)
+  //  ttl2Xml(file.value.content, this.network)
+  /* TEST AVEC STORE+SPARQL, mais on a dejà les infos dans file.value.content */
+  const store = $rdf.graph();
+  console.log(store)
+  const fetcher = new $rdf.Fetcher(store);
+  console.log(fetcher)
+  fetcher.load(file.value.url).then( response => {
+    console.log(response)
+    console.log(store)
+    console.log(store.statements)
+    var edges=[];
+    store.statements.forEach(function (s){
+      var nodeSujetTemp = {
+        id: s.subject.value,
+        label: s.subject.value,
+        type: "node"
+      };
+      var nodeObjetTemp = {
+        id:  s.object.value,
+        label: s.object.value,
+        type: "node"
+      };
+      addNodeIfNotExist(app.network, nodeSujetTemp)
+      addNodeIfNotExist(app.network, nodeObjetTemp)
+      edges.push({from:s.subject.value, to: s.object.value, arrows: 'to', label:s.predicate.value});
+      console.log(edges)
+      app.network.body.data.edges.update(edges)
+    })
+  })
+  /*let name = store.any(person, VCARD(‘fn’));
+  if (name) {
+  label.textContent =  name.value; // name is a Literal object
+}*/
+}
+
+
+// implementation of import-export.js utilities
+newGraph(){
+  newGraph(this.network)
+}
+
+exportTtl(){
+  var output = exportTtl(this.network)
+  this.agentVis.send('visPopup', {type:'exportTtl', ttlData : output});
+}
+
+exportJson(){
+  exportJson(this.network)
+}
+
+importJson(){
+  this.agentVis.send('visPopup', {type: 'toggle', popup:'importPopUp'})
+}
+
+decortiqueFile(fichier, remplaceNetwork){
+  decortiqueFile(fichier, remplaceNetwork, this.network)
+}
+
+
+/*  updated(changedProperties){
+super.updated(changedProperties)
+changedProperties.forEach((oldValue, propName) => {
+console.log(`${propName} changed. oldValue: ${oldValue}`);
+console.log("responseData UPDATED: ",this.responseData)
+});
 }
 
 attributeChangedCallback(name, oldval, newval) {

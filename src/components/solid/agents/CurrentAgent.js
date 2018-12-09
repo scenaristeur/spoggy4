@@ -40,10 +40,10 @@ CurrentAgent.prototype.receive = function(from, message) {
 
 
   switch(message.type){
-    case 'visresults':
-    console.log("visresults", message.visresults);
-    this.app.updateNetwork(message.visresults);
+    case 'currentChanged':
+    this.app.currentChanged(message.current);
     break;
+
 
 
     default:

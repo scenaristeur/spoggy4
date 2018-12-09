@@ -39,11 +39,16 @@ GraphAgent.prototype.receive = function(from, message) {
   }
 
 
-  
+
   switch(message.type){
     case 'currentChanged':
     this.app.currentChanged(message.current);
     break;
+    case 'nodeChanged':
+    console.log("nodeChanged", message.node);
+    this.app.nodeChanged(message.node);
+    break;
+
 
 
     default:

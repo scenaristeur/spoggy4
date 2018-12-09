@@ -4,9 +4,10 @@ import "./solid-current.js";
 import "./solid-foldermenu.js";
 import "./solid-filemanager.js";
 //import "./solid-foldermanager.js";
-//import "./solid-fileeditor.js";
+import "./solid-fileeditor.js";
 import "./solid-graph.js";
-
+import 'paper-collapse-item/paper-collapse-item.js';
+import { SharedStyles } from '../shared-styles.js';
 
 //import "./ide-current.js";
 /*import "./ide-foldermenu.js";
@@ -22,18 +23,43 @@ import "spoggy-graph/spoggy-graph.js";*/
 class SolidIde extends LitElement {
   render() {
     return html`
+    ${SharedStyles}
+
 
     <section>
+    <paper-collapse-item header="Current" opened>
+
     <solid-current current=${this.current}></solid-current>
+
+    </paper-collapse-item>
     </section>
 
     <section>
-    <solid-foldermenu current=${this.current}></solid-foldermenu>
-    <solid-fileeditor current=${this.current}></solid-fileeditor>
+    <paper-collapse-item header="Graph" opened>
+
     <solid-graph id="spoggy-graph" current=${this.current}></solid-graph>
-  <!--  <solid-filemanager current={{current}}></solid-filemanager>
-    <solid-foldermanager current={{current}}></solid-foldermanager>-->
+
+    </paper-collapse-item>
     </section>
+
+    <section>
+    <paper-collapse-item header="FolderMenu" >
+
+    <solid-foldermenu current=${this.current}></solid-foldermenu>
+
+    </paper-collapse-item>
+    </section>
+    <section>
+    <paper-collapse-item header="Editor" >
+    
+    <solid-fileeditor current=${this.current}></solid-fileeditor>
+
+    </paper-collapse-item>
+    </section>
+    <!--  <solid-filemanager current={{current}}></solid-filemanager>
+    <solid-foldermanager current={{current}}></solid-foldermanager>-->
+
+
     `;
   }
 

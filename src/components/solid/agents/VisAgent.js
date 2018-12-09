@@ -108,18 +108,24 @@ VisAgent.prototype.receive = function(from, message) {
     console.log(this.app.network.physics.options.repulsion)
     this.app.agentGraph.send('agentReglagesGraph', {type:'initOptions', repulsion : this.app.network.physics.options.repulsion});
     break;
-    case 'exportTtl':
-    console.log('exportTtl')
-    this.exportTtl();
+    // depuis solid
     case 'currentChanged':
     console.log('currentChanged', message)
     this.app.currentChanged(message.current)
+    case 'fileChanged':
+    console.log('fileChanged', message)
+    this.app.fileChanged(message.file)
 
     break;
     case 'savenode':
     console.log("savenode", message.data);
     this.app.savenode(message.data);
     break;
+    case 'decortiqueFile':
+    console.log("decortiqueFile");
+    this.app.decortiqueFile(message);
+    break;
+
 
 
     default:

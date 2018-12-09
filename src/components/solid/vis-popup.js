@@ -169,7 +169,7 @@ class VisPopup extends LitElement {
     <paper-dialog
     entry-animation="scale-up-animation"
     exit-animation="fade-out-animation"
-    id="import-popUp"
+    id="importPopUp"
     class="popup"
     backdrop
     transition="core-transition-bottom"><!--  on-iron-overlay-opened="_openImport"
@@ -203,7 +203,7 @@ class VisPopup extends LitElement {
     </paper-dialog>
 
     <paper-dialog
-    id="export-ttl"
+    id="exportTtlPopup"
     entry-animation="scale-up-animation"
     exit-animation="fade-out-animation"
     class="popup"
@@ -253,23 +253,23 @@ class VisPopup extends LitElement {
   }
 
 
-_handleOnChecked(e){
-  console.log("CHECK : ",e)
-}// = e => this.handleOnChecked(e);
+  _handleOnChecked(e){
+    console.log("CHECK : ",e)
+  }// = e => this.handleOnChecked(e);
 
-_handleOnRemoved(e){
-  console.log("REMOVE : ",e)
-}
+  _handleOnRemoved(e){
+    console.log("REMOVE : ",e)
+  }
 
-_shapeChanged(shape){
-  this.selectedShape = shape;
-  //console.log(this.selectedShape)
-}
+  _shapeChanged(shape){
+    this.selectedShape = shape;
+    //console.log(this.selectedShape)
+  }
 
-_colorChanged(e){
-  console.log(e)
-  console.log(this.colorValue)
-}
+  _colorChanged(e){
+    console.log(e)
+    console.log(this.colorValue)
+  }
 
 
   firstUpdated(){
@@ -604,6 +604,32 @@ super.update(changedProps);
 console.log('update!', changedProps);
 }*/
 
+exportTtl(ttlData){
+  this.shadowRoot.getElementById("exportTtlPopup").toggle();
+  this.shadowRoot.getElementById("inputTextToSave").value = ttlData;
+  this.shadowRoot.getElementById("inputFileNameToSaveAs").value ="Spoggy-exportTTL_"+Date.now();
+}
+
+handleFileSelected(evt) {
+  var app = this;
+  var partageImport = this.shadowRoot.getElementById("partageImport").checked;
+  var remplaceNetwork = this.shadowRoot.getElementById("remplaceNetwork").checked;
+  var files = evt.target.files; // FileList object
+  // files is a FileList of File objects. List some properties.
+  var output = [];
+  for (var i = 0; i < files.length; i++) {
+    // Code to execute for every file selected
+    var fichier = files[i];
+    console.log(fichier);
+    this.agentPopup.send('agentVis', {type: 'decortiqueFile', fichier: fichier, remplaceNetwork: remplaceNetwork});
+    //    this.decortiqueFile(fichier, this.network, remplaceNetwork);
+  }
+  console.log("fin");
+  // Code to execute after that
+  evt.target.files = null;
+  this.shadowRoot.getElementById("importPopUp").toggle();
+  //  app.$.dialogs.$.inputMessage.value = '';
+}
 
 
 }

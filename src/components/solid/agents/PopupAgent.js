@@ -40,10 +40,10 @@ PopupAgent.prototype.receive = function(from, message) {
 
 
   switch(message.type){
-    case 'visresults':
+    /*case 'visresults':
     console.log("visresults", message.visresults);
     this.app.updateNetwork(message.visresults);
-    break;
+    break;*/
 
     case 'addNode':
     console.log("editNode", message.data);
@@ -60,6 +60,17 @@ PopupAgent.prototype.receive = function(from, message) {
     case 'editEdgeWithoutDrag':
     console.log("editEdgeWithoutDrag", message.data);
     this.app.editEdgeWithoutDrag(message.data, message.callback, message.callback2);
+    break;
+    case 'exportTtl':
+    console.log("exportTtl");
+    this.app.exportTtl(message.ttlData);
+    break;
+    case 'toggle':
+    console.log(message.popup);
+    let popup = message.popup;
+    let pop = this.app.shadowRoot.getElementById(popup);
+    console.log(pop);
+    pop.toggle();
     break;
 
 

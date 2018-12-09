@@ -12,9 +12,7 @@ class SolidView extends PageViewElement {
   render() {
     return html`
     ${SharedStyles}
-    <section>
-    <p> status : ${this.status}</p>
-    </section>
+
 
     <section>
     <solid-login> Solid Login</solid-login>
@@ -24,10 +22,10 @@ class SolidView extends PageViewElement {
     <solid-profile></solid-profile>
     </section>-->
 
-    <section>
-      Parcourir un pod public sans être connecté
+
+
     <solid-ide>Solid Ide</solid-ide>
-    </section>
+    
     `
   }
 
