@@ -183,8 +183,7 @@ class MyApp extends connect(store)(LitElement) {
     </main>
 
     <footer>
-      <p>Made with &hearts; by the   <a href="https://github.com/scenaristeur/heroku-spoggy/tree/master/gui" target="_blank">scenaristeur/heroku-spoggy</a>
- team.</p>
+      <p>Made with &hearts; by the   <a href="https://github.com/scenaristeur/spoggy4" target="_blank">scenaristeur/heroku-spoggy</a> team.</p>
 
 
     </footer>
