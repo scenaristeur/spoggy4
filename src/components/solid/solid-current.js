@@ -80,8 +80,6 @@ class SolidCurrent extends LitElement {
         //app.$.podInput.value = ""
         app.current.value.url = "https://smag0.solid.community/public/"
         app.thing = {}
-        //  app.urlChanged(app.public)
-        app.go()
         app.shadowRoot.getElementById("currentInput").label = "Parcourir un pod public sans être connecté"
       }
       else{
@@ -102,11 +100,12 @@ class SolidCurrent extends LitElement {
         this._webIdRoot = wedIdSpilt[0]+"//"+wedIdSpilt[2]+"/";
         console.log(this._webIdRoot);
         app.current.value.url = this._webIdRoot+"public/";
-        app.url = app.current.value.url;
-        //  this.loadProfileDocument();
-        app.go()
-      }
 
+        //  this.loadProfileDocument();
+
+      }
+      app.url = app.current.value.url;
+      app.go()
     })
   }
 
@@ -122,7 +121,7 @@ class SolidCurrent extends LitElement {
     this.agentCurrent.send('agentFoldermenu', {type: 'currentChanged', current: this.current });
     this.agentCurrent.send('agentFileeditor', {type: 'currentChanged', current: this.current });
     this.agentCurrent.send('agentGraph', {type: 'currentChanged', current: this.current });
-    
+
   }
 
   currentChanged(current){
